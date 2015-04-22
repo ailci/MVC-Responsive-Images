@@ -1,0 +1,59 @@
+﻿@using MVC_Responsive_Images.Helpers.ResponsiveImage
+
+@{
+    ViewBag.Title = "Responsive Grafiken MVC Html Helper";
+}
+
+<style>
+    figure, figcaption {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<h2>HtmlHelper für Responsive Grafiken in ASP.NET MVC</h2>
+
+<figure>
+    <img srcset="~/Content/Images/Buyukada_Small.jpg 350w,
+                         ~/Content/Images/Buyukada_Medium.jpg 700w,
+                         ~/Content/Images/Buyukada_Large.jpg 1400w,
+                         ~/Content/Images/Buyukada_ExtraLarge.jpg 2800w"
+         src="~/Content/Images/Buyukada_Small.jpg"
+         sizes="(min-width:600px) 50vw, 100vw"
+         alt="Büyükada in Istanbul" />
+    <figcaption>Büyükada in Istanbul</figcaption>
+</figure>
+<figure>
+    <img srcset="~/Content/Images/Buyukada_Small.jpg,
+                     ~/Content/Images/Buyukada_Medium.jpg 2x,
+                     ~/Content/Images/Buyukada_Large.jpg 3x"
+         src="~/Content/Images/Buyukada_Small.jpg"
+         alt="Büyükada in Istanbul" />
+    <figcaption>Büyükada in Istanbul</figcaption>
+</figure>
+
+<h3>Html Helper mit Width Descriptor</h3>
+<figure>
+    @(Html.ResponsiveImage<ResponsiveImageWithWidthDescriptor>("~/Content/Images/Buyukada_Small.jpg", "Büyükada in Istanbul")
+              .AddImageToSrcset("~/Content/Images/Buyukada_Small.jpg", 350)
+              .AddImageToSrcset("~/Content/Images/Buyukada_Medium.jpg", 700)
+              .AddImageToSrcset("~/Content/Images/Buyukada_Large.jpg", 1400)
+              .AddSizes(new ResponsiveSizesAttribute() { MediaQueryWidthType = ResponsiveImageEnums.MediaQueryWidthType.Min, Width = 600, MediaQueryWidthUnit = ResponsiveImageEnums.MediaQueryWidthUnit.Px, ViewPortWidth = 50 })
+              .AddSizes(new ResponsiveSizesAttribute() { MediaQueryWidthType = ResponsiveImageEnums.MediaQueryWidthType.Max, Width = 900, MediaQueryWidthUnit = ResponsiveImageEnums.MediaQueryWidthUnit.Px, ViewPortWidth = 70 })
+              .AddSizes(new ResponsiveSizesAttribute() { ViewPortWidth = 35 })
+    )
+</figure>
+
+<h3>Html Helper mit Density Descriptor</h3>
+<figure>
+    @(Html.ResponsiveImage<ResponsiveImageWithDensityDescriptor>("~/Content/Images/Buyukada_Small.jpg", "Büyükada in Istanbul")
+            .AddImageToSrcset("~/Content/Images/Buyukada_Medium.jpg", 2)
+            .AddImageToSrcset("~/Content/Images/Buyukada_Large.jpg", 3)
+    )
+</figure>
